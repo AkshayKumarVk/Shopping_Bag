@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block title %}ShoppingBaf-CheckoutPage{% endblock title %}
+{% load static %}
+
+{% block customScripts %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
+</script>
+<script src="{% static 'assets/js/scriptCart.js' %}"></script>
+
+{% endblock customScripts %}
+
+<!-- ENd Header -->
+
+
+{% block body %}
+<section id="contact" class="contact">
+    <div class="container">
+        <div class="section-title" data-aos="fade-up" data-aos-delay="400">
+            <div class="container" data-aos="fade-up" data-aos-delay="400">
+                {% for message in messages %}
+                <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert" data-aos="fade-up"
+                    data-aos-delay="400">
+                    <strong></strong> {{message}}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="container">
+                <div class="col my-4">
+                    <h2>My Bucket</h2>
+                    <div class="my-4">
+                        <ul class="list-group" id="items">
+                        </ul>
+                        <nav aria-label="breadcrumb">
+                            <ol class="breadcrumb mt-3">
+                                <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is
+                                    <b>Rs.
+                                        <span id="totalPrice"></span> <span id="amount"></span></b>. Enter
+                                    your
+                                    details below & place your order. Thanks for using <span><a
+                                            href="/">ShoppingBag.</a></span></li>
+                                <li>
+                            </ol>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <h2>My Address Details</h2>
+            <form class="row g-3" method="POST" action="{% url 'cart' %}">
+                {% csrf_token %}
+                <input type="hidden" name="itemsJson" id="itemsJson">
+                <input type="hidden" id="amt" name="amt">
+                <div class="col-md-6">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" name="firstName" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="secondName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" name="secondName">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputEmail" class="form-label">Email</label>
+                    <input type="email" class="form-control" name="inputEmail" placeholder="eg:someone@email.com"
+                        required>
+                </div>
+                <div class="col-md-6">
+                    <label for="inputPhone" class="form-label">Phone</label>
+                    <input type="tel" class="form-control" name="inputPhone" pattern="[+91]{3}[0-9]{10}"
+                        placeholder="+911234567890" required>
+                </div>
+                <div class="col-12">
+                    <label for="inputAddress" class="form-label">Address</label>
+                    <input type="text" class="form-control" name="inputAddress" placeholder="1234 Main St" required>
+                </div>
+                <div class="col-12">
+                    <label for="inputAddress2" class="form-label">Address 2</label>
+                    <input type="text" class="form-control" name="inputAddress2"
+                        placeholder="Apartment, studio, or floor">
+                </div>
+                <div class="col-md-6">
+                    <label for="inputCity" class="form-label">City</label>
+                    <input type="text" class="form-control" name="inputCity" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="inputState" class="form-label">State</label>
+                    <select name="inputState" class="form-select" required>
+                        <option selected>Choose...</option>
+                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                        <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                        <option value="Assam">Assam</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Chandigarh">Chandigarh</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                        <option value="Dadar and Nagar Haveli">Dadar and Nagar Haveli</option>
+                        <option value="Daman and Diu">Daman and Diu</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Lakshadweep">Lakshadweep</option>
+                        <option value="Puducherry">Puducherry</option>
+                        <option value="Goa">Goa</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                        <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Kerala">Kerala</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Manipur">Manipur</option>
+                        <option value="Meghalaya">Meghalaya</option>
+                        <option value="Mizoram">Mizoram</option>
+                        <option value="Nagaland">Nagaland</option>
+                        <option value="Odisha">Odisha</option>
+                        <option value="Punjab">Punjab</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Sikkim">Sikkim</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                        <option value="Telangana">Telangana</option>
+                        <option value="Tripura">Tripura</option>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Uttarakhand">Uttarakhand</option>
+                        <option value="West Bengal">West Bengal</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="inputPin" class="form-label">Pin Code</label>
+                    <input type="text" class="form-control" name="inputPin" required>
+                </div>
+                <div class="col-12 ">
+                    <button type="submit" class="btn btn-outline-primary">Place Order</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    </div>
+</section>
+{% endblock body %}

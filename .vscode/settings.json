@@ -1,0 +1,7 @@
+{
+  "python.analysis.typeCheckingMode": "off",
+  "cSpell.enableFiletypes": ["al", "json5", "r"],
+  "prettier.bracketSpacing": false,
+  "files.autoSave": "afterDelay",
+  "cSpell.words": ["activationfail", "ckvvwnhbnrdlfxjv", "divpr", "uibd"]
+}

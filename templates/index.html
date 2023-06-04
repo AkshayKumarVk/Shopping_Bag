@@ -1,0 +1,295 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>ShoppingBag-index</title>
+  <meta content="" name="description" />
+  <meta content="" name="keywords" />
+  <!-- Favicons -->
+  <link href="{% static 'assets/img/ShoppingBag/2.png' %}" rel="icon" />
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet" />
+  <!-- Boot Strap link -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+
+
+
+  <!-- Vendor CSS Files -->
+  <link href="{% static 'assets/vendor/aos/aos.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/remixicon/remixicon.css' %}" rel="stylesheet" />
+  <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet" />
+  <!-- Template Main CSS File -->
+  <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+  <!-- =======================================================
+        * Template Name: Shopping Bag
+        * Updated: Mar 10 2023 with Bootstrap v5.2.3
+        * Author: Akshay Kumar
+  ======================================================== -->
+</head>
+
+<body>
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+      {% comment %} LOGO {% endcomment %}
+      <div class="logo">
+        <h1>
+          <a href="{% url 'home' %}">Shopping Bag</a>
+        </h1>
+      </div>
+      {% comment %} LOGO {% endcomment %}
+      <!-- Nav bar -->
+      <nav id="navbar" class="navbar">
+        <ul>
+          {% if not user.is_authenticated %}
+          <li class="dropdown">
+            <a class="getstarted scrollto" href="{% url 'loginPage' %}"><span>
+            <i class="fa-solid fa-right-to-bracket"></i>{% comment %} Login {% endcomment %}
+            </span></a>
+          </li>
+          <li>
+          <li>
+            <a href="{% url 'cart' %}">
+              <button type="button" class="btn btn-success">
+                <i class="fa-solid fa-cart-shopping"></i>{% comment %} Cart {% endcomment %}
+              </button>
+            </a>
+          </li>
+          {% else %}
+          <div class="mx-3">
+            <li class="dropdown">
+              <a class="getstarted scrollto " href="#"><span>{{ user }}<i class="bi bi-chevron-down"></i></span></a>
+              <ul>
+                <li>
+                  <a href="{% url 'logoutPage' %}">Logout</a>
+                </li>
+              </ul>
+            </li>
+          </div>
+          <li>
+            <button type="button" class="btn btn-success" data-placement="bottom" id="popCart" data-toggle="popover"
+              data-content="" data-container="body" data-html="true" data-trigger="focus">
+              <i class="fa-solid fa-cart-shopping"></i>{% comment %} Cart {% endcomment %}
+              <span id="cart" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                0
+                <span class="visually-hidden">unread messages</span>
+              </span>
+            </button>
+          </li>
+          {% endif %}
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+      <!-- .navbar -->
+    </div>
+  </header>
+  <!-- End Header -->
+
+
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 pt-5 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+          {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert" data-aos="fade-up"
+            data-aos-delay="400">
+            <strong></strong> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+          {% endfor %}
+          <h1 data-aos="fade-up">Shopping Bag: The Future of Online Shopping</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">Here you will get all daily needs.
+          </h2>
+        </div>
+        <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="fade-left" data-aos-delay="200">
+          <img src="{% static 'assets/img/ShoppingBag/5168157_27275071.jpg' %}" class="img-fluid animated" alt="" />
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Hero -->
+  <main id="main">
+    {% block body %}
+    <!-- ======= product Section ======= -->
+
+    <section id="portfolio" class="portfolio" data-aos="fade-up" data-aos-delay="150">
+      <div class="container">
+        <div class="section-title">
+          <h2>SHOP BY CATEGORY</h2>
+        </div>
+        {% for products, range, nSlides in allProducts %}
+        <h3 class="my-3 text-center text-info bg-light mt-5 " data-aos="fade-up" data-aos-delay="150">
+          {{products.0.productCategory}} SALE
+        </h3>
+        <div data-aos="fade-up" data-aos-delay="150">
+          <div class="row">
+            {% for product in products %}
+            <div class="col-md-3 mt-3">
+              <div class="imgCon">
+                <img src="{{ product.productImage.url }}" class="card-img-top w-50 h-50 " alt="not found" />
+              </div>
+              <div class="card-body">
+                <h5 class="card-title mt-1 bi-text-center" id="brand{{ product.id }}">
+                  {{ product.productBrands}}
+                </h5>
+                <p class="card-text">{{product.productDescription|slice:"0:34"}}...</p>
+                <h6 class="card-title mb-2">
+                  Price:<span id="price{{product.id}}">{{product.productPrice}}</span>
+                </h6>
+              </div>
+              <span id="divpr{{product.id}}" class="divpr">
+                <button id="{{product.id}}" class="btn btn-outline-primary cart">Add to
+                  Cart</button>
+              </span>
+              <a href="{{ product.productImage.url }}">
+                <button class="btn btn-outline-dark mx-auto">
+                  <i class="fa-solid fa-eye"></i>{% comment %} View {% endcomment %}
+                </button>
+              </a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      </div>
+    </section>
+    <!-- End product Section -->
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container">
+        <div class="section-title" data-aos="fade-up">
+          <h2>Contact Us</h2>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="contact-about">
+              <h3>Shopping Bag</h3>
+              <p>
+                The Shopping Bag is an e-commerce website that offers a wide range of products for customers to
+                browse, shop, and purchase conveniently from the comfort of their own homes. With a user-friendly
+                interface and a vast selection of products, the Shopping Bag aims to provide a seamless and enjoyable
+                shopping experience for its customers.
+              </p>
+              <div class="social-links">
+                <a href="https://twitter.com/akshay_ashz" target="_blank" class="twitter"><i
+                    class="bi bi-twitter"></i></a>
+                <a href="https://www.facebook.com/akshaykumar.kattoly" target="_blank" class="facebook"><i
+                    class="bi bi-facebook"></i></a>
+                <a href="https://www.instagram.com/________a_k_s_h_a_y/" target="_blank" class="instagram"><i
+                    class="bi bi-instagram"></i></a>
+                <a href="https://www.linkedin.com/in/akshay-kumar-3b232918b/" target="_blank" class="linkedin"><i
+                    class="bi bi-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-6 mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="200">
+            <div class="info">
+              <div>
+                <i class="ri-map-pin-line"></i>
+                <p>
+                  A108 Adam Street
+                  <br />
+                  New York, NY 535022
+                </p>
+              </div>
+              <div>
+                <i class="ri-mail-send-line"></i>
+                <p>
+                  <a href="" mailto:someone@example.com"">Email Me</a>
+                </p>
+              </div>
+              <div>
+                <i class="ri-phone-line"></i>
+                <a href="tel:+8136863236">Call Me</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-5 col-md-12" data-aos="fade-up" data-aos-delay="300">
+            <form class="row g-3" method="POST" action="{% url 'home' %}">
+              {% csrf_token %}
+              <div class="form-group">
+                <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required />
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required />
+              </div>
+              <div class="form-group">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required />
+              </div>
+              <div class="form-group">
+                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
+              </div>
+              <div>
+                <button type="submit" class="btn btn-outline-primary">Send Message</button>
+              </div>
+          </div>
+          </form>
+        </div>
+      </div>
+      </div>
+    </section>
+    <!-- End Contact Section -->
+    {% endblock body %}
+  </main>
+
+  <!-- End #main -->
+  <!-- ======= Footer ======= -->
+  <footer id="footer" data-aos="fade-up" data-aos-delay="400">
+    <div class="container" data-aos="fade-up" data-aos-delay="400">
+      <div class="row d-flex align-items-center">
+        <div class="text-lg-left text-center">
+          <div class="copyright">
+            &copy; Copyright <strong>Shopping Bag</strong>. All Rights Reserved
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- End Footer -->
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
+
+  <!-- google JS  -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <!-- Vendor JS Files -->
+  <script src="{% static 'assets/vendor/purecounter/purecounter_vanilla.js' %}"></script>
+  <script src="{% static 'assets/vendor/aos/aos.js' %}"></script>
+  <script src="{% static 'assets/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/glightbox/js/glightbox.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/swiper/swiper-bundle.min.js' %}"></script>
+  <script src="{% static 'assets/vendor/php-email-form/validate.js' %}"></script>
+  <!-- boot strap scripts -->
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+    integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous">
+  </script>
+  <script src="https://kit.fontawesome.com/35fd0da468.js" crossorigin="anonymous"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{% static 'assets/js/main.js' %}"></script>
+  <!-- custom js files - cart -->
+
+  <script src="{% static 'assets/js/scripts.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}eCommerceApp_Signup{% endblock title%}
+{% block body %}
+{% load socialaccount %}
+
+
+
+
+{% block heroSection %}{% endblock heroSection %}
+
+<section id="contact" class="contact">
+	<div class="container">
+		<div class="section-title" data-aos="fade-up" data-aos-delay="400">
+			<br>
+			<div class="row">
+				<div class="col-md-4">
+					<h1 data-aos="fade-up" data-aos-delay="400">SignUp</h1>
+					<br>
+					<div class="container" data-aos="fade-up" data-aos-delay="400">
+
+						{% for message in messages %}
+						<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert"
+							data-aos="fade-up" data-aos-delay="400">
+							<strong></strong> {{message}}
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+						{% endfor %}
+
+						<form action="{% url 'signupPage' %}" method="POST" role="form" data-aos="fade-up"
+							data-aos-delay="400">
+							{% csrf_token %}
+							<div class="form-group">
+								<input type="email" class="form-control" name="email" id="email" placeholder="Email"
+									required />
+							</div>
+							<br>
+							<div class="form-group">
+								<input type="password" class="form-control" name="password" id="password"
+									placeholder="Password" required />
+							</div>
+							<br>
+							<div class="form-group">
+								<input type="password" class="form-control" name="confPassword" id="confPassword"
+									placeholder="Confirm Password" required />
+							</div>
+							<br>
+							<button type="submit" class="btn btn-outline-primary mb-2">SignUp</button>
+
+							<a class="btn btn-outline-primary mb-2 " href="{% provider_login_url 'google' %}">Continue
+								with
+								Google
+							</a>
+							Or
+							<br>
+							Already User? <a href="{% url 'loginPage' %}">Login</a>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+{% block style %}
+{% endblock style %}
+{% endblock body %}
